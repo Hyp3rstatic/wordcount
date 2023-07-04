@@ -1,7 +1,6 @@
 /*
  * dl_list function definitions
  */
-
 #include "include/dl_list.h"
 
 struct dl_list *dl_list_new(void){
@@ -37,7 +36,7 @@ _Bool dl_list_add_below( struct dl_list *list,
  }
 
 //assign flag to proper number
-short flag = dl_list_add_case_handler(list, target, 1);
+ short flag = dl_list_add_case_handler(list, target, 1);
 
 //add node with "data" to "list" above "target"
  return dl_list_add(list, data, target, flag);
@@ -143,13 +142,13 @@ short dl_list_add_case_handler( struct dl_list *list,
    return 1;
   }
   else{
-   return 2;
+   return 3;
   }
  }
 
  if(flag == 1){
   if(target == list->tail){
-   return 3;
+   return 2;
   }
   else{
    return 4;
