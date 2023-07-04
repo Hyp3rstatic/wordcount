@@ -1,6 +1,7 @@
 /*
  * dl_list function definitions
  */
+
 #include "include/dl_list.h"
 
 struct dl_list *dl_list_new(void){

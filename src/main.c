@@ -1,4 +1,4 @@
-#include "include/util.h"
+#include "include/wordcount.h"
 
 int main(int argc, char *argv[]){
 
@@ -23,7 +23,7 @@ int main(int argc, char *argv[]){
  char *letters;
 
 //"cp": character primary; stops at start of word, terminates process at EOF
-//"cs": character secondary; stops at end of word, does not terminate process at EOF
+//"cs": character secondary; stops while waiting for cp to catch up, does not terminate process at EOF
  char cp, cs;
 
 //"iw": in word; false if not, true if so
