@@ -1,6 +1,6 @@
 .PHONY: all
 all: main bin
-	gcc build/obj/main.o build/obj/dl_list.o -o build/bin/wordcount
+	gcc build/obj/main.o build/obj/dl_list.o build/obj/word.o build/obj/util.o -o build/bin/wordcount
 
 .PHONY: clean
 clean:
@@ -15,11 +15,17 @@ obj: build
 build:
 	mkdir -p build
 
-main: src/main.c dl_list
+main: src/main.c util
 	gcc -g -O -c src/main.c -o build/obj/main.o
 
 dl_list: src/dl_list.c obj
 	gcc -g -O -c src/dl_list.c -o build/obj/dl_list.o
+
+word: src/word.c obj
+	gcc -g -O -c src/word.c -o build/obj/word.o
+
+util: src/util.c word dl_list
+	gcc -g -O -c src/util.c -o build/obj/util.o
 
 .PHONY: tclean
 tclean:
