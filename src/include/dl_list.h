@@ -1,6 +1,6 @@
 /*
  * common header for doubly-linked list structure(dl_list)
- * includes basic dl_list related functionality
+ * includes basic doubly linked list inserting and delteting functions
  */
 
 #ifndef DL_LIST_H
@@ -8,7 +8,7 @@
 
 #include <stdlib.h>
 
-// set new dl_list to DL_LIST_NULL
+// set new struct dl_list to DL_LIST_NULL
 #define DL_LIST_NULL {0, 0}
 
 struct dl_node{
@@ -22,51 +22,28 @@ struct dl_list{
  struct dl_node *tail;
 };
 
-struct dl_list *dl_list_new(void);
+/*** GENERAL LIST FUNCTIONS ***/
 
-//add node with "data" to "list" above "target"
-//return 0 on success, return 1 on fail
-_Bool dl_list_add_above( struct dl_list *list,
-                         void  *data,
-                         struct dl_node *target);
+// set new struct dl_list* to dl_list_new()
+struct dl_list *dll_new(void);
 
-//add node with "data"  to "list" below "target"
-//return 0 on success, return 1 on fail
-_Bool dl_list_add_below( struct dl_list *list,
-                         void *data,
-                         struct dl_node *target);
+/*** INSERT LIST FUNCTIONS ***/
 
-//delete "node" from "list"
-//return 0 on success, return 1 on fail
-_Bool dl_list_del(struct dl_list *list, struct dl_node *node);
+_Bool dll_insert_head(struct dl_list *list, void *data);
 
-struct dl_node *dl_node_new(void *data);
+_Bool dll_insert_tail(struct dl_list *list, void *data);
 
-_Bool dl_list_empty_add(struct dl_list **list, void *data);
+_Bool dll_insert(struct dl_list *list,
+                     void *data,
+                     struct dl_node *target_above,
+                     struct dl_node *target_below);
 
-_Bool dl_list_head_add(struct dl_list **list, void *data);
+/*** DELETE LIST FUNCTIONS ***/
 
-_Bool dl_list_tail_add(struct dl_list **list, void *data);
+_Bool dll_delete_head(struct dl_list *list);
 
-_Bool dl_list_add(  struct dl_list *list,
-                    void *data,
-                    struct dl_node *target,
-                    unsigned short flag);
+_Bool dll_delete_tail(struct dl_list *list);
 
-short dl_list_add_case_handler( struct dl_list *list,
-                                struct dl_node *target,
-                                _Bool flag);
-
-_Bool dl_list_del_to_empty(struct dl_list **list);
-
-_Bool dl_list_del_head(struct dl_list **list);
-
-_Bool dl_list_del_tail(struct dl_list **list);
-
-_Bool dl_list_del_between(struct dl_node **node);
-
-_Bool __dl_list_del(struct dl_list *list, struct dl_node *node, short flag);
-
-short dl_list_del_case_handler(struct dl_list *list, struct dl_node *node);
+_Bool dll_delete(struct dl_list *list, struct dl_node *target);
 
 #endif /* DL_LIST_H */

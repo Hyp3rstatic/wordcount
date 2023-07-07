@@ -9,11 +9,6 @@
 #include <stdio.h>
 #include <string.h>
 
-extern const unsigned char A;
-extern const unsigned char Z;
-extern const unsigned char a;
-extern const unsigned char z;
-
 struct word{
  char *letters;
  unsigned short length;

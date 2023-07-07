@@ -16,11 +16,13 @@ int main(int argc, char *argv[]){
   return 1;
  }
 
- struct dl_list *list = dl_list_new();
+ struct dl_list *list = dll_new();
 
  struct word *word_save;
 
  char *letters;
+
+ unsigned short i;
 
 //"cp": character primary; stops at start of word, terminates process at EOF
 //"cs": character secondary; stops while waiting for cp to catch up, does not terminate process at EOF
@@ -32,24 +34,25 @@ int main(int argc, char *argv[]){
 //"lc": letter count
  unsigned short lc;
 
- unsigned short i;
-
  while(cp != EOF){
  if(iw == 0){
   cp = fgetc(file_cp);
   cs = fgetc(file_cs);
-  if((cp >= A && cp <= Z) || (cp >= a && cp <= z)){
+  if((cp >= 'A' && cp <= 'Z') || (cp >= 'a' && cp <= 'z')){
    iw = 1;
    lc = 1;
   }
  }
  if(iw == 1){
   cs = fgetc(file_cs);
-  if(cs < A || (cs > Z && cs < a) || (cs > z)){
+  if(cs < 'A' || (cs > 'Z' && cs < 'a') || (cs > 'z')){
    iw = 0;
    letters = (char*)malloc(sizeof(char)*lc+1);
    letters[lc] = '\0';
    for(i = 0; i < lc; i++){
+    if(cp >='A' && cp <= 'Z'){
+     cp += 32;
+    }
     letters[i] = cp;
     cp = fgetc(file_cp);
    }
@@ -61,7 +64,7 @@ int main(int argc, char *argv[]){
     printf("duplicate: letters:%s length:%d count:%d\n", word_save->letters, word_save->length, word_save->count);
    }
    else{
-    dl_list_add_below(list, word_new(letters, lc, 1),list->tail);
+    dll_insert_tail(list, word_new(letters, lc, 1));
     word_save = (struct word*)list->tail->data;
     printf("letters:%s length:%d count:%d\n", word_save->letters, word_save->length, word_save->count);
    }
@@ -73,6 +76,7 @@ int main(int argc, char *argv[]){
   printf("%c, %c\n", cp, cs);
  }
 
+//FOLLOWING IS TEMPORARY EXCEPT FOR "return 0;}"
  struct dl_node *walker;
 
  printf("\n↓ ↓ ↓ HEAD ↓ ↓ ↓\n");
@@ -90,5 +94,6 @@ int main(int argc, char *argv[]){
   printf("letters: %s | length: %d | count: %d\n", word_save->letters, word_save->length, word_save->count);
   walker = walker->prev;
  }
+
  return 0;
 }
