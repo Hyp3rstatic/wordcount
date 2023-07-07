@@ -30,8 +30,8 @@ void dl_list_walk(struct dl_list *list){
 }
 
 int main(int argc, char *argv[]){
-    int i;
-    int *data;
+    size_t i;
+    size_t *data;
 
- return 0;
+    return 0;
 }

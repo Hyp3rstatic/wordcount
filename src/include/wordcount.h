@@ -10,9 +10,9 @@
 #include <string.h>
 
 struct word{
- char *letters;
- unsigned short length;
- unsigned short count;
+    char *letters;
+    unsigned short length;
+    unsigned short count;
 };
 
 struct word *word_new(char *letters, unsigned short length, unsigned short count);

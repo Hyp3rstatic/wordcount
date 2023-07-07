@@ -88,9 +88,9 @@ _Bool dll_insert_tail(struct dl_list *list, void *data){
 }
 
 _Bool dll_insert(struct dl_list *list,
-                     void *data,
-                     struct dl_node *target_above,
-                     struct dl_node *target_below){
+                 void *data,
+                 struct dl_node *target_above,
+                 struct dl_node *target_below){
     //safety
     if(list == NULL || data == NULL || target_above == target_below){
         return 1;
