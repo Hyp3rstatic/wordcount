@@ -1,6 +1,6 @@
 /*
  * common header for doubly-linked list structure(dl_list)
- * includes basic doubly linked list inserting and deleteting functions
+ * includes basic doubly linked list functionality
  */
 
 #ifndef DL_LIST_H
@@ -22,12 +22,12 @@ struct dl_list{
     struct dl_node *tail;
 };
 
-/*** GENERAL LIST FUNCTIONS ***/
+/*** GENERAL FUNCTIONS ***/
 
 // set new struct dl_list* to dl_list_new()
 struct dl_list *dll_new(void);
 
-/*** INSERT LIST FUNCTIONS ***/
+/*** INSERT FUNCTIONS ***/
 
 _Bool dll_insert_head(struct dl_list *list, void *data);
 
@@ -38,12 +38,18 @@ _Bool dll_insert(struct dl_list *list,
                  struct dl_node *target_above,
                  struct dl_node *target_below);
 
-/*** DELETE LIST FUNCTIONS ***/
+/*** DELETE FUNCTIONS ***/
 
 _Bool dll_delete_head(struct dl_list *list);
 
 _Bool dll_delete_tail(struct dl_list *list);
 
 _Bool dll_delete(struct dl_list *list, struct dl_node *target);
+
+/** SWAP FUNCTIONS***/
+
+_Bool dll_swap(struct dl_list *list,
+               struct dl_node *a, 
+               struct dl_node *b);
 
 #endif /* DL_LIST_H */

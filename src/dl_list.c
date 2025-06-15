@@ -16,9 +16,9 @@ static struct dl_node *_dln_new(void *data){
     return new_node;
 }
 
-/****************************
-    GENERAL LIST FUNCTIONS
- ****************************/
+/***********************
+    GENERAL FUNCTIONS
+ ***********************/
 
 /*** EXTERNAL ***/
 
@@ -29,9 +29,9 @@ struct dl_list *dll_new(void){
     return new_list;
 }
 
-/***************************
-    INSERT LIST FUNCTIONS
- ***************************/
+/**********************
+    INSERT FUNCTIONS
+ **********************/
 
 /*** INTERNAL ***/
 
@@ -137,9 +137,9 @@ _Bool dll_insert(struct dl_list *list,
     return 0;
 }
 
-/***************************
-    DELETE LIST FUNCTIONS
- ***************************/
+/**********************
+    DELETE FUNCTIONS
+ **********************/
 
 /*** INTERNAL ***/
 
@@ -219,3 +219,82 @@ _Bool dll_delete(struct dl_list *list, struct dl_node *target){
     free(target);
     return 0;
 }
+
+/********************
+    SWAP FUNCTIONS
+ ********************/
+
+/*** EXTERNAL ***/
+
+//TODO: make an actual swap function
+_Bool dll_swap(struct dl_list *list,
+               struct dl_node *a,
+               struct dl_node *b){
+    if(list == NULL || a == NULL || b == NULL){
+        return 1;
+    }
+    struct dl_node *a_next = a->next;
+    struct dl_node *a_prev = a->prev;
+    struct dl_node *b_next = b->next;
+    struct dl_node *b_prev = b->prev;
+    if(a == list->head && b == list->tail){
+        list->head = b;
+        list->tail = a;
+    }
+    else if(b == list->head && a == list->tail){
+        list->head = a;
+        list->tail = b;
+    }
+    else if(a == list->head){
+        list->head = b;
+    }
+    else if(b == list->head){
+        list->head = a;
+    }
+    else if(a == list->tail){
+        list->tail = b;
+    }
+    else if(b == list->tail){
+        list->tail = a;
+    }
+    //integrate a
+    if(a->prev == b){
+        a->next = b;
+        a->prev = b_prev;
+    }
+    else if(a->next == b){
+        a->prev = b;
+        a->next = b_next;
+    }
+    else{
+    a->next = b_next;
+    a->prev = b_prev;
+    }
+    if(a->next != NULL){
+        a->next->prev = a;
+    }
+    if(a->prev != NULL){
+        a->prev->next = a;
+    }
+    //integrate b
+    if(b->prev == a && b->next == a){ 
+        if(a->next == b){ 
+            b->next = a_next;
+        }
+        else if(a->prev == b){ 
+            b->prev = a_prev;
+        }
+    }   
+    else{
+        b->next = a_next;
+        b->prev = a_prev;
+    }   
+    if(b->next != NULL){
+        b->next->prev = b;
+    }   
+    if(b->prev != NULL){
+        b->prev->next = b;
+    }   
+    return 0;
+}
+

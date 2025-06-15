@@ -1,42 +1,38 @@
-.PHONY: all
-all: main bin
-	gcc build/obj/main.o build/obj/dl_list.o build/obj/wordcount.o -o build/bin/wordcount
+CC = gcc
+SRC = src
+OBJ = build/obj
+BIN = build/bin
+OBJS = $(OBJ)/main.o $(OBJ)/wc_utils.o $(OBJ)/wc_qsort.o $(OBJ)/wc_entry.o $(OBJ)/dl_list.o $(OBJ)/prand.o
 
-.PHONY: clean
+all: main bin
+	$(CC) $(OBJS) -o $(BIN)/wordcount
+
 clean:
 	rm -rf build
 
 bin: build
-	mkdir -p build/bin
+	mkdir -p $(BIN)
 
 obj: build
-	mkdir -p build/obj
+	mkdir -p $(OBJ)
 
 build:
 	mkdir -p build
 
-main: src/main.c wordcount
-	gcc -g -O -c src/main.c -o build/obj/main.o
+main: $(SRC)/main.c wc_qsort
+	$(CC) -g -O -c $(SRC)/main.c -o $(OBJ)/main.o
 
 dl_list: src/dl_list.c obj
-	gcc -g -O -c src/dl_list.c -o build/obj/dl_list.o
+	$(CC) -g -O -c $(SRC)/dl_list.c -o $(OBJ)/dl_list.o
 
-wordcount: src/wordcount.c dl_list obj
-	gcc -g -O -c src/wordcount.c -o build/obj/wordcount.o
+wc_qsort: $(SRC)/wc_qsort.c wc_utils prand
+	$(CC) -g -O -c $(SRC)/wc_qsort.c -o $(OBJ)/wc_qsort.o
 
-.PHONY: tclean
-tclean:
-	rm -rf test/build
+wc_utils: $(SRC)/wc_utils.c wc_entry dl_list
+	$(CC) -g -O -c $(SRC)/wc_utils.c -o $(OBJ)/wc_utils.o
 
-tbin: tbuild
-	mkdir -p test/build/bin
+wc_entry: $(SRC)/wc_entry.c obj
+	$(CC) -g -O -c $(SRC)/wc_entry.c -o $(OBJ)/wc_entry.o
 
-tojb: tbuild
-	mkdir -p test/build/obj
-
-tbuild:
-	mkdir -p test/build
-
-test_dl_list: tojb tbin dl_list test/test_dl_list.c
-	gcc -g -O -c test/test_dl_list.c -o test/build/obj/test_dl_list.o
-	gcc build/obj/dl_list.o test/build/obj/test_dl_list.o -o test/build/bin/test_dl_list
+prand: $(SRC)/prand.c obj
+	$(CC) -g -O -c $(SRC)/prand.c -o $(OBJ)/prand.o
